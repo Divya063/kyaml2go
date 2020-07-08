@@ -14,8 +14,8 @@ import (
 var CommonImports = []string{
 	"os",
 	"fmt",
+	"context",
 	"path/filepath",
-	"k8s.io/client-go/kubernetes",
 	"k8s.io/client-go/tools/clientcmd",
 	"k8s.io/client-go/util/homedir",
 }
@@ -32,7 +32,7 @@ type ImportManager struct {
 }
 
 // New returns an instance of ImportManager
-func New(kind, group, version, obj string) ImportManager {
+func New(kind, group, version, obj, cliPkg string) ImportManager {
 	im := ImportManager{
 		Kind:    kind,
 		Group:   group,
@@ -40,10 +40,6 @@ func New(kind, group, version, obj string) ImportManager {
 		Object:  obj,
 	}
 	im.Imports = make(map[string]string)
-	// Add default imports
-	for _, i := range CommonImports {
-		im.Imports[i] = ""
-	}
 	return im
 }
 
